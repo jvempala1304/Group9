@@ -735,6 +735,12 @@ form input[type="submit"]:active {
     transform: translateY(0);
 }
 
+.checkout-button-wrapper {
+	width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 
 

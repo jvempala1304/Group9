@@ -92,11 +92,13 @@ if(isset($_SESSION['cart_id'])) {
 
 // Add checkout button
 if (!empty($cart_items)) {
+	echo '<div class="checkout-button-wrapper">';
     echo '<div class="checkout-button">
             <form method="GET" action="checkout.php">
                 <input type="submit" value="Proceed to Checkout">
             </form>
           </div>';
+	echo '</div>';
 }
 
 include '../templates/footer.php';
