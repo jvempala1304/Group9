@@ -45,5 +45,13 @@ class Order {
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+	public function saveInvoice($order_id, $invoice_filename) {
+        $query = 'INSERT INTO Invoices (order_id, invoice_pdf) VALUES (:order_id, :invoice_pdf)';
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':order_id', $order_id, PDO::PARAM_INT);
+        $stmt->bindParam(':invoice_pdf', $invoice_filename, PDO::PARAM_STR);
+        $stmt->execute();
+    }
 }
 ?>
