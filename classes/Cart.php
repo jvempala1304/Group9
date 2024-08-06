@@ -55,5 +55,39 @@ class Cart {
 			return false;
 		}
 	}
+	
+	public function getCartItems($cart_id) {
+        $query = 'SELECT ci.cart_item_id, ci.product_id, ci.quantity, ci.price_at_purchase, p.product_name, p.image_url
+                  FROM Cart_Items ci
+                  JOIN Products p ON ci.product_id = p.product_id
+                  WHERE ci.cart_id = :cart_id';
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':cart_id', $cart_id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function removeItemFromCart($cart_item_id) {
+        $query = 'DELETE FROM Cart_Items WHERE cart_item_id = :cart_item_id';
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':cart_item_id', $cart_item_id);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+        return false;
+    }
+
+	public function clearCartAndCartItems($cart_id) {
+		$query1 = "DELETE FROM cart_items WHERE cart_id = ?";
+		$stmt1 = $this->conn->prepare($query1);
+
+		$query2 = "DELETE FROM cart WHERE cart_id = ?";
+		$stmt2 = $this->conn->prepare($query2);
+
+		$stmt1->execute([$cart_id]);
+		return $stmt2->execute([$cart_id]);
+	}
 }
 ?>
